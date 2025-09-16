@@ -1,0 +1,22 @@
+{
+    "name": "podrecznikomat/php-isbn-api",
+    "description": "Client for retrieving book data using ISBN API.",
+    "autoload": {
+        "psr-4": {
+            "Podrecznikomat\\IsbnApi\\": "src/",
+            "Podrecznikomat\\IsbnApi\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "PatrykMolenda",
+            "email": "patryk.fr.molenda@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.10"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    }
+}
