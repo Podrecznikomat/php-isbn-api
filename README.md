@@ -39,6 +39,10 @@ echo $book->getAuthorsAsString();
 - subjects
 - edition
 
+## API Support list
+
+- e-isbn.pl
+
 ## Tests
 
 To run tests:
