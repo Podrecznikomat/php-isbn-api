@@ -1,6 +1,8 @@
 {
     "name": "podrecznikomat/php-isbn-api",
     "description": "Client for retrieving book data using ISBN API.",
+    "type": "library",
+    "keywords": ["isbn", "books", "api", "client", "php"],
     "autoload": {
         "psr-4": {
             "Podrecznikomat\\IsbnApi\\": "src/",
@@ -18,5 +20,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^11.5"
-    }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "license": "SEE LICENSE.md"
 }
