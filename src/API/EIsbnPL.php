@@ -4,7 +4,7 @@ namespace Podrecznikomat\IsbnApi\API;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Podrecznikomat\IsbnApi\Exceptions\ISBNApiInvalidResponseException;
+use Podrecznikomat\IsbnApi\Exceptions\IsbnApiInvalidResponseException;
 use Podrecznikomat\IsbnApi\Object\Book;
 
 class EIsbnPL implements ApiInterface
@@ -22,49 +22,49 @@ class EIsbnPL implements ApiInterface
      * @param string $isbn
      * @return Book
      * @throws GuzzleException
-     * @throws ISBNApiInvalidResponseException
+     * @throws IsbnApiInvalidResponseException
      */
     public function getBookByIsbn(string $isbn): Book
     {
-        $response = $this->client->get($this->baseUrl . "?isnb={$isbn}");
+        $response = $this->client->get($this->baseUrl . "?isbn={$isbn}");
         $responseBody = $response->getBody()->getContents();
         $xml = simplexml_load_string($responseBody, 'SimpleXMLElement', LIBXML_NOCDATA);
         if($xml === false) {
-            throw new ISBNApiInvalidResponseException("Invalid XML response from e-isbn.pl API.");
+            throw new IsbnApiInvalidResponseException("Invalid XML response from e-isbn.pl API.");
         }
 
         $xml->registerXPathNamespace("onix", 'http://www.editeur.org/onix/3.0/reference');
 
         // ISBN
-        $isbn = (string) ($xml->xpath('//onix:ProductIdentifier[onix:ProductIDType="15"]/onix:IDValue')[0] ?? '');
+        $isbn = (string) $xml->Product->ProductIdentifier->IDValue;
 
         // Title & Subtitle
-        $title = (string) ($xml->xpath('//onix:TitleText')[0] ?? '');
-        $subtitle = (string) ($xml->xpath('//onix:Subtitle')[0] ?? null);
+        $title = (string) $xml->Product->DescriptiveDetail->TitleDetail->TitleElement->TitleText;
+        $subtitle = (string) ($xml->Product->DescriptiveDetail->TitleDetail->TitleElement->Subtitle ?? null);
 
         // Authors
         $authors = [];
-        foreach ($xml->xpath('//onix:Contributor/onix:PersonNameInverted') as $author) {
+        foreach ($xml->Product->DescriptiveDetail->Contributor->PersonNameInverted as $author) {
             $authors[] = (string) $author;
         }
 
         // Publisher
-        $publisher = (string) ($xml->xpath('//onix:PublisherName')[0] ?? '');
+        $publisher = (string) $xml->Product->PublishingDetail->Publisher->PublisherName;
 
         // Publication Date
-        $publishedDate = (string) ($xml->xpath('//onix:PublishingDate[onix:PublishingDateRole="09"]/onix:Date')[0] ?? null);
+        $publishedDate = (string) $xml->Product->PublishingDetail->PublishingDate->Date;
 
         // Language
-        $language = (string) ($xml->xpath('//onix:Language[onix:LanguageRole="01"]/onix:LanguageCode')[0] ?? null);
+        $language = (string) $xml->Product->DescriptiveDetail->Language->LanguageCode;
 
         // Subjects
         $subjects = [];
-        foreach ($xml->xpath('//onix:Subject/onix:SubjectCode') as $subject) {
+        foreach ($xml->Product->DescriptiveDetail->Subject->SubjectCode as $subject) {
             $subjects[] = (string) $subject;
         }
 
         // Edition
-        $edition = (string) ($xml->xpath('//onix:EditionNumber')[0] ?? null);
+        $edition = (string) $xml->Product->DescriptiveDetail->EditionNumber ?? null;
 
         return new Book(
             $isbn,
