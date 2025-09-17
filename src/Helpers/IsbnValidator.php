@@ -16,7 +16,7 @@ class IsbnValidator
             return self::isValidIsbn10($isbn);
         }
 
-        if(strlen($isbn) === 13) {
+        if (strlen($isbn) === 13) {
             return self::isValidIsbn13($isbn);
         }
 
