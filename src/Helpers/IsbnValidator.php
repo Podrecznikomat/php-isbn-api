@@ -34,7 +34,7 @@ class IsbnValidator
         }
 
         $sum = 0;
-        for($i = 0; $i < 9; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             $sum += ((int) $isbn[$i]) * ($i + 1);
         }
 
