@@ -42,6 +42,8 @@ echo $book->getAuthorsAsString();
 ## API Support list
 
 - e-isbn.pl
+- Google Books API
+- Open Library API
 
 ## Tests
 
