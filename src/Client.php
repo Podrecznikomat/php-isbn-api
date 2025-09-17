@@ -3,7 +3,7 @@
 namespace Podrecznikomat\IsbnApi;
 
 use Podrecznikomat\IsbnApi\API\ApiInterface;
-use Podrecznikomat\IsbnApi\Exceptions\ISBNApiNotFoundException;
+use Podrecznikomat\IsbnApi\Exceptions\IsbnApiNotFoundException;
 use GuzzleHttp\Client as GuzzleClient;
 
 class Client
@@ -21,7 +21,7 @@ class Client
     /**
      * @param string $apiName
      * @param mixed ...$otherParams For future use if some APIs need e.g. authentication params
-     * @throws ISBNApiNotFoundException
+     * @throws IsbnApiNotFoundException
      */
     public function __construct(
         string $apiName,
@@ -31,7 +31,9 @@ class Client
         $this->client = new GuzzleClient();
         $this->api = match ($apiName) {
             IsbnEnum::E_ISBN_PL => new API\EIsbnPL($this->client),
-            default => throw new ISBNApiNotFoundException("API with name {$apiName} not found."),
+            IsbnEnum::GOOGLE_BOOKS => new API\GoogleBooks($this->client),
+            IsbnEnum::OPEN_LIBRARY => new API\OpenLibrary($this->client),
+            default => throw new IsbnApiNotFoundException("API with name {$apiName} not found."),
         };
     }
 

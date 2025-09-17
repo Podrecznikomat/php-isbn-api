@@ -4,7 +4,7 @@ namespace Podrecznikomat\IsbnApi\Exceptions;
 
 use Exception;
 
-class ISBNApiInvalidResponseException extends Exception
+class IsbnApiNotFoundException extends Exception
 {
 
 }
