@@ -16,7 +16,7 @@ class IsbnValidator
             return self::isValidIsbn10($isbn);
         }
 
-        if(strlen($isbn) === 13) {
+        if (strlen($isbn) === 13) {
             return self::isValidIsbn13($isbn);
         }
 
@@ -34,7 +34,7 @@ class IsbnValidator
         }
 
         $sum = 0;
-        for($i = 0; $i < 9; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             $sum += ((int) $isbn[$i]) * ($i + 1);
         }
 
