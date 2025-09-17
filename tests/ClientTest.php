@@ -28,7 +28,7 @@ final class ClientTest extends TestCase
     {
         $client = new Client(IsbnEnum::GOOGLE_BOOKS);
         $isbn = "9783161484100";
-        $title = "Kisiwa cha giza";
+        $title = "Caderno Das Minhas Emoções";
 
         $response = $client->api()->getBookByIsbn($isbn);
         $this->assertInstanceOf(Book::class, $response);
